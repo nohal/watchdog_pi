@@ -30,7 +30,7 @@
 class wdDC;
 class TiXmlElement;
 
-enum AlarmType {LANDFALL, BOUNDARY, NMEADATA, DEADMAN, ANCHOR, COURSE, SPEED, WIND, WEATHER};
+enum AlarmType {ANCHOR, COURSE, SPEED, WIND, WEATHER, DEADMAN, NMEADATA, LANDFALL, BOUNDARY, PYPILOT};
 
 class Alarm : public wxEvtHandler {
 public:
@@ -52,9 +52,9 @@ public:
     virtual void Run();
 
     virtual wxString Type() = 0;
-    virtual wxString Options() = 0;
     virtual bool Test() = 0;
     virtual wxString GetStatus() = 0;
+    virtual int GetCount() { return m_count; }
     virtual void NMEAString(const wxString &sentence) {}
     virtual void Render(wdDC &dc, PlugIn_ViewPort &vp) {}
     virtual wxWindow *OpenPanel(wxWindow *parent) = 0;
@@ -69,24 +69,28 @@ public:
 
     virtual void OnTimer(wxTimerEvent &);
 
+    void Reset() { m_bFired = false; m_count = 0; }
+
     bool m_bHasGraphics, m_bEnabled, m_bgfxEnabled, m_bFired, m_bSpecial;
 
 protected:
-    bool m_bSound, m_bCommand, m_bMessageBox, m_bRepeat, m_bAutoReset;
+    bool m_bSound, m_bCommand, m_bMessageBox, m_bNoData, m_bRepeat, m_bAutoReset;
     wxString m_sSound, m_sCommand;
     wxDateTime m_LastAlarmTime;
     int m_iRepeatSeconds;
+    int m_iDelay;
     
     wxTimer    m_Timer;
+    wxDateTime m_DelayTime;
 
 private:
     friend class EditAlarmDialog;
 
     void ConfigItem(bool read, wxString name, wxControl *control);
     virtual void GetStatusControls(wxControl *&Text, wxControl *&status) { Text = status = NULL; }
+    virtual wxString MessageBoxText() { return ""; }
 
-    int m_interval;
-
+    int m_interval, m_count;
 };
 
 class TestAlarm : public Alarm
@@ -94,7 +98,6 @@ class TestAlarm : public Alarm
 public:
     TestAlarm() {}
     wxString Type() { return _("Test"); }
-    wxString Options() { return _T(""); }
     bool Test() { return false; }
     wxString GetStatus() { return _T(""); }
     wxWindow *OpenPanel(wxWindow *parent) { return NULL; }

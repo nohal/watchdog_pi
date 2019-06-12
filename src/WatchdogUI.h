@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec  3 2017)
+// C++ code generated with wxFormBuilder (version Feb 20 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #ifndef __WATCHDOGUI_H__
@@ -17,21 +17,28 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/string.h>
-#include <wx/button.h>
 #include <wx/sizer.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
+#include <wx/menu.h>
 #include <wx/dialog.h>
 #include <wx/stattext.h>
+#include <wx/button.h>
 #include <wx/radiobut.h>
 #include <wx/statbox.h>
+#include <wx/fontpicker.h>
 #include <wx/checkbox.h>
 #include <wx/filepicker.h>
 #include <wx/textctrl.h>
 #include <wx/spinctrl.h>
 #include <wx/panel.h>
-#include <wx/radiobox.h>
-#include <wx/slider.h>
-#include <wx/statline.h>
 #include <wx/choice.h>
+#include <wx/slider.h>
+#include <wx/radiobox.h>
+#include <wx/statline.h>
+#include <wx/combobox.h>
+#include <wx/notebook.h>
 
 #include "wxWTranslateCatalog.h"
 
@@ -50,23 +57,34 @@ class WatchdogDialogBase : public wxDialog
 	private:
 	
 	protected:
-		wxListCtrl* m_lStatus;
-		wxButton* m_bConfiguration;
-		wxButton* m_bReset;
-		wxButton* m_bClose;
+		wxMenu* m_Menu;
+		wxMenuItem* m_Edit;
+		wxMenuItem* m_Reset;
+		wxMenuItem* m_Delete;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnDoubleClick( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnLeftDown( wxMouseEvent& event ) { event.Skip(); }
-		virtual void OnConfiguration( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnRightDown( wxMouseEvent& event ) { event.Skip(); }
+		virtual void OnNew( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnEdit( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnReset( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnClose( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDelete( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnResetAll( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnDeleteAll( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnConfiguration( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
+		wxListCtrl* m_lStatus;
 		
 		WatchdogDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("WatchDog"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL ); 
 		~WatchdogDialogBase();
+		
+		void WatchdogDialogBaseOnContextMenu( wxMouseEvent &event )
+		{
+			this->PopupMenu( m_Menu, event.GetPosition() );
+		}
 	
 };
 
@@ -92,9 +110,11 @@ class WatchdogPropertiesDialogBase : public wxDialog
 		wxStaticText* m_staticTextDateVal;
 		wxStaticText* m_staticTextOther;
 		wxStaticText* m_staticTextOtherVal;
+		wxButton* m_button7;
 		wxButton* m_buttonOK;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnAboutAuthor( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnWatchdogPropertiesOKClick( wxCommandEvent& event ) { event.Skip(); }
 		
 	
@@ -117,24 +137,14 @@ class ConfigurationDialogBase : public wxDialog
 		wxRadioButton* m_rbOnce;
 		wxRadioButton* m_rbVisible;
 		wxRadioButton* m_rbNever;
-		wxButton* m_bNew;
-		wxButton* m_bEdit;
-		wxButton* m_bDelete;
-		wxButton* m_bDeleteAll;
-		wxListCtrl* m_lAlarms;
-		wxButton* m_button7;
+		wxStaticText* m_staticText61;
+		wxFontPickerCtrl* m_font;
 		wxStdDialogButtonSizer* m_sdbSizer1;
 		wxButton* m_sdbSizer1OK;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnEnabled( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnNewAlarm( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnEditAlarm( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDeleteAlarm( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDeleteAllAlarms( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnDoubleClick( wxMouseEvent& event ) { event.Skip(); }
-		virtual void AlarmSelected( wxListEvent& event ) { event.Skip(); }
-		virtual void OnAboutAuthor( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnFont( wxFontPickerEvent& event ) { event.Skip(); }
 		
 	
 	public:
@@ -163,7 +173,7 @@ class NewAlarmDialogBase : public wxDialog
 	public:
 		wxListCtrl* m_lAlarmType;
 		
-		NewAlarmDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Alarm"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 400,300 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		NewAlarmDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Alarm"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 200,300 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~NewAlarmDialogBase();
 	
 };
@@ -177,6 +187,10 @@ class EditAlarmDialogBase : public wxDialog
 	
 	protected:
 		wxFlexGridSizer* m_fgSizer;
+		wxCheckBox* m_cbNoData;
+		wxStaticText* m_staticText56;
+		wxSpinCtrl* m_sDelay;
+		wxStaticText* m_staticText57;
 		wxCheckBox* m_cbAutoReset;
 		wxCheckBox* m_cbgfxEnabled;
 		wxButton* m_bTest;
@@ -201,6 +215,198 @@ class EditAlarmDialogBase : public wxDialog
 		
 		EditAlarmDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Edit Alarm"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE ); 
 		~EditAlarmDialogBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class AnchorPanel
+///////////////////////////////////////////////////////////////////////////////
+class AnchorPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText71;
+		wxStaticText* m_staticText8;
+		wxButton* m_bSyncToBoat;
+		wxStaticText* m_staticText9;
+		wxStaticText* m_staticText39;
+		wxStaticText* m_staticText39121;
+		
+		// Virtual event handlers, overide them in your derived class
+		void OnSyncToBoat( wxCommandEvent& event );
+		
+	
+	public:
+		wxTextCtrl* m_tLatitude;
+		wxTextCtrl* m_tLongitude;
+		wxSpinCtrl* m_sRadius;
+		wxCheckBox* m_cbAutoSync;
+		
+		AnchorPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~AnchorPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class CoursePanel
+///////////////////////////////////////////////////////////////////////////////
+class CoursePanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText50;
+		wxStaticText* m_staticText32;
+		wxStaticText* m_staticText18;
+		wxStaticText* m_staticText21;
+		wxButton* m_bCurrentCourse;
+		wxStaticText* m_staticText3912;
+		
+		// Virtual event handlers, overide them in your derived class
+		void OnCurrentCourse( wxCommandEvent& event );
+		
+	
+	public:
+		wxChoice* m_cMode;
+		wxSpinCtrl* m_sTolerance;
+		wxSpinCtrl* m_sCourse;
+		wxRadioButton* m_rbGPSCourse;
+		wxRadioButton* m_rbHeading;
+		
+		CoursePanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~CoursePanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class SpeedPanel
+///////////////////////////////////////////////////////////////////////////////
+class SpeedPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText51;
+		wxStaticText* m_staticText44;
+		wxStaticText* m_staticText24;
+		wxStaticText* m_staticText28;
+		wxStaticText* m_staticText391;
+	
+	public:
+		wxChoice* m_cMode;
+		wxTextCtrl* m_tSpeed;
+		wxSlider* m_sliderSOGAverageNumber;
+		
+		SpeedPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~SpeedPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class WindPanelBase
+///////////////////////////////////////////////////////////////////////////////
+class WindPanelBase : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText51;
+		wxStaticText* m_staticText55;
+		wxButton* m_bAboutWind;
+		wxStaticText* m_staticText44;
+		wxStaticText* m_staticText24;
+		wxButton* m_bSync;
+		wxStaticText* m_staticText58;
+		wxStaticText* m_staticText59;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnType( wxCommandEvent& event ) = 0;
+		virtual void OnAboutWind( wxCommandEvent& event ) = 0;
+		virtual void OnSync( wxCommandEvent& event ) = 0;
+		
+	
+	public:
+		wxChoice* m_cMode;
+		wxChoice* m_cType;
+		wxSpinCtrl* m_sValue;
+		wxSpinCtrl* m_sRange;
+		
+		WindPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~WindPanelBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class WeatherPanelBase
+///////////////////////////////////////////////////////////////////////////////
+class WeatherPanelBase : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText50;
+		wxStaticText* m_staticText51;
+		wxStaticText* m_staticText511;
+		wxStaticText* m_stUnits;
+		wxStaticText* m_staticText53;
+		wxStaticText* m_staticText54;
+		wxStaticText* m_staticText391;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnVariable( wxCommandEvent& event ) = 0;
+		
+	
+	public:
+		wxChoice* m_cVariable;
+		wxRadioButton* m_rbValue;
+		wxRadioButton* m_rbRate;
+		wxChoice* m_cType;
+		wxTextCtrl* m_tValue;
+		wxSpinCtrl* m_sRatePeriod;
+		
+		WeatherPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~WeatherPanelBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class DeadmanPanel
+///////////////////////////////////////////////////////////////////////////////
+class DeadmanPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText33;
+		wxStaticText* m_staticText6;
+	
+	public:
+		wxSpinCtrl* m_sMinutes;
+		
+		DeadmanPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~DeadmanPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class NMEADataPanel
+///////////////////////////////////////////////////////////////////////////////
+class NMEADataPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText34;
+		wxStaticText* m_staticText35;
+		wxStaticText* m_staticText13;
+	
+	public:
+		wxTextCtrl* m_tSentences;
+		wxSpinCtrl* m_sSeconds;
+		
+		NMEADataPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~NMEADataPanel();
 	
 };
 
@@ -271,187 +477,45 @@ class BoundaryPanel : public wxPanel
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class NMEADataPanel
+/// Class pypilotPanel
 ///////////////////////////////////////////////////////////////////////////////
-class NMEADataPanel : public wxPanel 
+class pypilotPanel : public wxPanel 
 {
 	private:
 	
 	protected:
-		wxStaticText* m_staticText34;
-		wxStaticText* m_staticText35;
-		wxStaticText* m_staticText13;
-	
-	public:
-		wxTextCtrl* m_tSentences;
-		wxSpinCtrl* m_sSeconds;
-		
-		NMEADataPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~NMEADataPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class DeadmanPanel
-///////////////////////////////////////////////////////////////////////////////
-class DeadmanPanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText33;
-		wxStaticText* m_staticText6;
-	
-	public:
-		wxSpinCtrl* m_sMinutes;
-		
-		DeadmanPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~DeadmanPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class AnchorPanel
-///////////////////////////////////////////////////////////////////////////////
-class AnchorPanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText71;
-		wxStaticText* m_staticText8;
-		wxButton* m_bSyncToBoat;
-		wxStaticText* m_staticText9;
-		wxStaticText* m_staticText39;
-		wxStaticText* m_staticText39121;
+		wxNotebook* m_notebook1;
+		wxPanel* m_panel2;
+		wxPanel* m_panel3;
+		wxButton* m_button19;
+		wxPanel* m_panel1;
+		wxStaticText* m_staticText72;
+		wxStaticText* m_staticText73;
 		
 		// Virtual event handlers, overide them in your derived class
-		void OnSyncToBoat( wxCommandEvent& event );
+		void OnAboutHardwareErrors( wxCommandEvent& event );
 		
 	
 	public:
-		wxTextCtrl* m_tLatitude;
-		wxTextCtrl* m_tLongitude;
-		wxSpinCtrl* m_sRadius;
-		wxCheckBox* m_cbAutoSync;
+		wxComboBox* m_cHost;
+		wxCheckBox* m_cbNoConnection;
+		wxCheckBox* m_cbOverTemperature;
+		wxCheckBox* m_cbOverCurrent;
+		wxCheckBox* m_cbNoIMU;
+		wxCheckBox* m_cbNoMotorController;
+		wxCheckBox* m_cbNoRudderFeedback;
+		wxCheckBox* m_cbNoMotorTemperature;
+		wxCheckBox* m_cbDriverTimeout;
+		wxCheckBox* m_cbEndOfTravel;
+		wxCheckBox* m_cbLostMode;
+		wxCheckBox* m_cbServoSaturated;
+		wxCheckBox* m_cbPowerConsumption;
+		wxSpinCtrlDouble* m_sPowerConsumption;
+		wxCheckBox* m_cbCourseError;
+		wxSpinCtrlDouble* m_sCourseError;
 		
-		AnchorPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~AnchorPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class CoursePanel
-///////////////////////////////////////////////////////////////////////////////
-class CoursePanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText50;
-		wxStaticText* m_staticText32;
-		wxStaticText* m_staticText18;
-		wxStaticText* m_staticText21;
-		wxButton* m_bCurrentCourse;
-		wxStaticText* m_staticText3912;
-		
-		// Virtual event handlers, overide them in your derived class
-		void OnCurrentCourse( wxCommandEvent& event );
-		
-	
-	public:
-		wxChoice* m_cMode;
-		wxSpinCtrl* m_sTolerance;
-		wxSpinCtrl* m_sCourse;
-		
-		CoursePanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~CoursePanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class SpeedPanel
-///////////////////////////////////////////////////////////////////////////////
-class SpeedPanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText51;
-		wxStaticText* m_staticText44;
-		wxStaticText* m_staticText24;
-		wxStaticText* m_staticText28;
-		wxStaticText* m_staticText391;
-	
-	public:
-		wxChoice* m_cMode;
-		wxTextCtrl* m_tSpeed;
-		wxSlider* m_sliderSOGAverageNumber;
-		
-		SpeedPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~SpeedPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class WindPanel
-///////////////////////////////////////////////////////////////////////////////
-class WindPanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText51;
-		wxStaticText* m_staticText55;
-		wxButton* m_bAboutWind;
-		wxStaticText* m_staticText44;
-		wxStaticText* m_staticText24;
-		wxStaticText* m_staticText391;
-		
-		// Virtual event handlers, overide them in your derived class
-		void OnAboutWind( wxCommandEvent& event );
-		
-	
-	public:
-		wxChoice* m_cMode;
-		wxChoice* m_cType;
-		wxSpinCtrl* m_sValue;
-		
-		WindPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~WindPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class WeatherPanelBase
-///////////////////////////////////////////////////////////////////////////////
-class WeatherPanelBase : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText50;
-		wxStaticText* m_staticText51;
-		wxStaticText* m_staticText511;
-		wxStaticText* m_stUnits;
-		wxStaticText* m_staticText53;
-		wxStaticText* m_staticText54;
-		wxStaticText* m_staticText391;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnVariable( wxCommandEvent& event ) = 0;
-		
-	
-	public:
-		wxChoice* m_cVariable;
-		wxRadioButton* m_rbValue;
-		wxRadioButton* m_rbRate;
-		wxChoice* m_cType;
-		wxTextCtrl* m_tValue;
-		wxSpinCtrl* m_sRatePeriod;
-		
-		WeatherPanelBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~WeatherPanelBase();
+		pypilotPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~pypilotPanel();
 	
 };
 

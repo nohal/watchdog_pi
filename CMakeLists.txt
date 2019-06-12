@@ -5,7 +5,7 @@
 ##---------------------------------------------------------------------------
  
 # define minimum cmake version
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6.2)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.1)
 
 PROJECT(watchdog_pi)
 SET(PACKAGE_NAME watchdog_pi)
@@ -25,6 +25,10 @@ SET(PLUGIN_VERSION "${PLUGIN_VERSION_MAJOR}.${PLUGIN_VERSION_MINOR}.${PLUGIN_VER
 
 OPTION(WATCHDOG_USE_SVG "Use SVG graphics" ON)
 
+SET(CMAKE_MACOSX_RPATH "ON")
+
+SET(CMAKE_CXX_STANDARD 11)
+
 INCLUDE("cmake/PluginConfigure.cmake")
 
 IF(WATCHDOG_USE_SVG)
@@ -33,13 +37,13 @@ ENDIF(WATCHDOG_USE_SVG)
 
 SET(SRC_WATCHDOG
             src/watchdog_pi.cpp
-            src/watchdog_pi.cpp
             src/WatchdogDialog.cpp
             src/WatchdogPropertiesDialog.cpp
             src/ConfigurationDialog.cpp
             src/NewAlarmDialog.cpp
             src/EditAlarmDialog.cpp
             src/Alarm.cpp
+            src/signalk_client.cpp
             src/WatchdogUI.cpp
             src/icons.cpp
             src/ODAPI.h
@@ -62,7 +66,7 @@ IF(TINYXML_FOUND)
  TARGET_LINK_LIBRARIES(${PACKAGE_NAME} ${TINYXML_LIBRARIES})
 ELSE(TINYXML_FOUND)
  message (STATUS "Building with embedded tinyxml")
- INCLUDE_DIRECTORIES(src/tinyxml/)
+ INCLUDE_DIRECTORIES(BEFORE ${PROJECT_SOURCE_DIR}/src/tinyxml/)
  SET(SRC_LTINYXML
             src/tinyxml/tinyxml.cpp
             src/tinyxml/tinyxmlparser.cpp

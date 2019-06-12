@@ -31,8 +31,6 @@
 #include "wx/wx.h"
 #endif
 
-#include "wx28compat.h"
-
 #ifdef __MSVC__
 #include <windows.h>
 #endif
@@ -369,8 +367,8 @@ void wdDC::DrawLine( wxCoord x1, wxCoord y1, wxCoord x2, wxCoord y2, bool b_hiqu
         else {
             // TODO: is it worthwhile to use our stipple textures here for non-user defined
             // cases rather than render many line segments?
-            if(b_hiqual)
-                ;// SetGLStipple(m_pen.GetStyle());
+//            if(b_hiqual)
+//                ;// SetGLStipple(m_pen.GetStyle());
 
             wxDash *dashes;
             int n_dashes = m_pen.GetDashes( &dashes );
@@ -858,7 +856,7 @@ void wdDC::DrawBitmap( const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemas
             unsigned char *a = image.GetAlpha();
 
             unsigned char mr, mg, mb;
-            if( !image.GetOrFindMaskColour( &mr, &mg, &mb ) && !a ) printf(
+            if( !a && !image.GetOrFindMaskColour( &mr, &mg, &mb ) ) printf(
                     "trying to use mask to draw a bitmap without alpha or mask\n" );
 
             unsigned char *e = new unsigned char[4 * w * h];
@@ -866,7 +864,7 @@ void wdDC::DrawBitmap( const wxBitmap &bitmap, wxCoord x, wxCoord y, bool usemas
                 for( int y = 0; y < h; y++ )
                     for( int x = 0; x < w; x++ ) {
                         unsigned char r, g, b;
-                        int off = ( y * image.GetWidth() + x );
+                        int off = ( y * w + x );
                         r = d[off * 3 + 0];
                         g = d[off * 3 + 1];
                         b = d[off * 3 + 2];

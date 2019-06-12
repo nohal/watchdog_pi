@@ -65,27 +65,13 @@ std::cout << x << std::endl; } while (0)
 
 #define ABOUT_AUTHOR_URL "http://seandepagnier.users.sourceforge.net"
 
-#define OPC wxS("opencpn-watchdog_pi")
-
-#ifndef WXINTL_NO_GETTEXT_MACRO
-#ifdef OPC
-#ifdef _
-#undef _
-#endif // _
-#define _(s) wxGetTranslation((s),OPC)
-#endif // OPC
-#else 
-#define _(s) wxGetTranslation((s))
-#endif // WXINTL_NO_GETTEXT_MACRO
-
-
 #include "ocpn_plugin.h"
 
 #ifdef __MSVC__
 #include "msvcdefs.h"
 #endif
 
-double heading_resolve(double degrees);
+double heading_resolve(double degrees, double offset=0);
 
 //----------------------------------
 //    The PlugIn Class Definition
@@ -140,7 +126,6 @@ public:
       void SetColorScheme(PI_ColorScheme cs);
 
 //    Other public methods
-      void OnWatchdogDialogClose();
       void ShowConfigurationDialog( wxWindow* );
       static wxString StandardPath();
 
@@ -149,9 +134,9 @@ public:
       PlugIn_Position_Fix_Ex &LastFix() { return m_lastfix; }
       double Declination();
 
-      double m_sog, m_cog;
+      double m_sog, m_cog, m_hdm;
 
-      wxDateTime m_LastFixTime;
+      wxDateTime m_ValidFixTime;
       wxDateTime m_cursor_time;
       WatchdogDialog   *m_WatchdogDialog;
       
